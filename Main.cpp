@@ -6,6 +6,7 @@
 #include <GL/glut.h>
 using namespace std;
 static int year = 0, day = 0, moonRotation = 0, sunRotation = 0;
+static int zRotation = 0;
 
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -21,8 +22,12 @@ void display() {
 		glPopMatrix();
 
 		// Earth
+		cout << zRotation << "\n";
+		glRotatef((GLfloat)zRotation, 0.0, 0.0, 1.0);
 		glRotatef((GLfloat)year, 0.0, 1.0, 0.0);
+
 		glTranslatef(2.0, 0.0, 0.0);
+		
 		
 		glPushMatrix();
 			glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
@@ -67,6 +72,7 @@ void keyboard(unsigned char key, int x, int y) {
 		break;
 	case 'm': moonRotation = (moonRotation + 5) % 360;
 		break;
+	case 'z': zRotation = (zRotation + 5) % 360;
 	default:;
 	}
 	//glutPostRedisplay();
