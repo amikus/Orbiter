@@ -7,10 +7,11 @@
 
 using namespace std;
 
-const double pi = 3.1415926535897;
+const GLdouble pi = 3.1415926535897;
 
-static int year = 0, day = 0, moonRotation = 0, sunRotation = 0;
-static int zRotation = 0, radians = 0, degrees = 0;
+static GLint year = 0, day = 0, moonRotation = 0, sunRotation = 0, zRotation = 0;
+static GLfloat radians = 0, degrees = 0;
+static GLint vp[4];
 
 
 void display() {
@@ -27,10 +28,6 @@ void display() {
 		glPopMatrix();
 
 		// Earth
-
-		radians = atan2(9, 3);
-		degrees = radians * (180 / pi);
-		zRotation = degrees;
 		glRotatef((GLfloat)zRotation, 0.0, 0.0, 1.0);
 		glRotatef((GLfloat)year, 0.0, 1.0, 0.0);
 
@@ -86,6 +83,25 @@ void keyboard(unsigned char key, int x, int y) {
 	//glutPostRedisplay();
 }
 
+void mouse(GLint button, GLint state, GLint x, GLint y) {
+	if (button == GLUT_LEFT_BUTTON & state == GLUT_UP) {
+		
+		glGetIntegerv(GL_VIEWPORT, vp);
+
+		x = x - vp[2]/2;
+		y = vp[3] - y - vp[3]/2;
+		
+		//cout << vp[2] << '\n';
+		//cout << vp[3] << '\n';
+		//cout << "x is: " << x << " and y is " << y << "\n";
+		radians = atan2(y, x);
+		//cout << "radians are: " << radians << "\n";
+		degrees = radians * (180 / pi);
+		//cout << "degrees are: " << degrees << "\n";
+		zRotation = degrees;
+	}
+}
+
 void timer(int n) {
 	
 	sunRotation = (sunRotation - 2) % 360;
@@ -110,7 +126,8 @@ int main(int argc, char **argv)
 	glMatrixMode(GL_PROJECTION);
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
-	
+	glutMouseFunc(mouse);
+
 	glEnable(GL_DEPTH_TEST);        /* Enable hidden-surface removal */
 
 	glutTimerFunc(100, timer, 0);
