@@ -3,7 +3,7 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-static int year = 0, day = 0;
+static int year = 0, day = 0, moonRotation = 0;
 
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -23,10 +23,12 @@ void display() {
 			glColor3f(0.0, 0.0, 1.0); // blue
 			glutWireCube(0.4);
 			
-			glTranslatef(0.5, 0.0, 0.0);
+			//Moon
 
+			glTranslatef(0.5, 0.0, 0.0);
+			glRotatef((GLfloat)moonRotation, 0.0, 1.0, 0.0);
 			glColor3f(0.5, 0.5, 0.5);
-			glutSolidCube(0.1);
+			glutWireCube(0.1);
 
 		glPopMatrix();
 	glPopMatrix();
@@ -58,7 +60,8 @@ void keyboard(unsigned char key, int x, int y) {
 		break;
 	case 'Y': year = (year - 5) % 360;
 		break;
-		//test
+	case 'm': moonRotation = (moonRotation + 5) % 360;
+		break;
 	default:;
 	}
 	glutPostRedisplay();
