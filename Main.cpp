@@ -4,9 +4,14 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+
 using namespace std;
+
+const double pi = 3.1415926535897;
+
 static int year = 0, day = 0, moonRotation = 0, sunRotation = 0;
-static int zRotation = 0;
+static int zRotation = 0, radians = 0, degrees = 0;
+
 
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -22,7 +27,10 @@ void display() {
 		glPopMatrix();
 
 		// Earth
-		cout << zRotation << "\n";
+
+		radians = atan2(9, 3);
+		degrees = radians * (180 / pi);
+		zRotation = degrees;
 		glRotatef((GLfloat)zRotation, 0.0, 0.0, 1.0);
 		glRotatef((GLfloat)year, 0.0, 1.0, 0.0);
 
@@ -102,6 +110,7 @@ int main(int argc, char **argv)
 	glMatrixMode(GL_PROJECTION);
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
+	
 	glEnable(GL_DEPTH_TEST);        /* Enable hidden-surface removal */
 
 	glutTimerFunc(100, timer, 0);
