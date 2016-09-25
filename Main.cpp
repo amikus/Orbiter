@@ -24,10 +24,9 @@ void display() {
 			glutWireCube(0.4);
 			
 			//Moon
-
 			glTranslatef(0.5, 0.0, 0.0);
 			glRotatef((GLfloat)moonRotation, 0.0, 1.0, 0.0);
-			glColor3f(0.5, 0.5, 0.5);
+			glColor3f(0.5, 0.5, 0.5); // gray
 			glutWireCube(0.1);
 
 		glPopMatrix();
@@ -67,6 +66,11 @@ void keyboard(unsigned char key, int x, int y) {
 	glutPostRedisplay();
 }
 
+void timer(int n) {
+	glutPostRedisplay();
+	glutTimerFunc(10, timer, 0);
+}
+
 int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
@@ -81,6 +85,8 @@ int main(int argc, char **argv)
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
 	glEnable(GL_DEPTH_TEST);        /* Enable hidden-surface removal */
+
+	glutTimerFunc(100, timer, 0);
 
 	glutMainLoop();
 }
