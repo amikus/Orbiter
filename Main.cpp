@@ -67,12 +67,12 @@ void keyboard(unsigned char key, int x, int y) {
 }
 
 void timer(int n) {
-	day = (day + 10) % 360;
-	year = (year + 5) % 360;
-	moonRotation = (moonRotation + 5) % 360;
+	day = (day + 2) % 360;
+	year = (year + 1) % 360;
+	moonRotation = (moonRotation + 1) % 360;
 
 	glutPostRedisplay();
-	glutTimerFunc(100, timer, 0);
+	glutTimerFunc(20, timer, 0);
 }
 
 int main(int argc, char **argv)
