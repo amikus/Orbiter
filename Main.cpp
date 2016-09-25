@@ -4,7 +4,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-
+using namespace std;
 static int year = 0, day = 0, moonRotation = 0, sunRotation = 0;
 
 void display() {
@@ -67,25 +67,20 @@ void keyboard(unsigned char key, int x, int y) {
 		break;
 	case 'm': moonRotation = (moonRotation + 5) % 360;
 		break;
-	case 'S': sunRotation = (sunRotation + 10) % 360;
-		break;
-	case 's': sunRotation = (sunRotation - 10) % 360;
-		break;
 	default:;
 	}
 	//glutPostRedisplay();
 }
 
 void timer(int n) {
-	/*
-	sunRotation = (sunRotation - 15) % 360;
+	
+	sunRotation = (sunRotation - 2) % 360;
 	day = (day + 2) % 360;
-	year = (year - 1) % 360;
+	year = (year + 1) % 360;
 	moonRotation = (moonRotation + 1) % 360;
-	*/
-	cout << "I'm talking";
+
 	glutPostRedisplay();
-	glutTimerFunc(100, timer, 0);
+	glutTimerFunc(20, timer, 0);
 }
 
 int main(int argc, char **argv)
