@@ -1,27 +1,33 @@
+#include <iostream>
+#include <stdlib.h>
 #include <windows.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-static int year = 0, day = 0, moonRotation = 0;
+static int year = 0, day = 0, moonRotation = 0, sunRotation = 0;
 
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	
 	glPushMatrix();
 
 		// Sun
-		glColor3f(1.0, 1.0, 0.0);	// yellow
-		glutSolidCube(2.0);
+		glPushMatrix();
+			glRotatef((GLfloat)sunRotation, 0.0, 1.0, 0.0);
+			glColor3f(1.0, 1.0, 0.0);	// yellow
+			glutWireCube(2.0);
+		glPopMatrix();
 
 		// Earth
 		glRotatef((GLfloat)year, 0.0, 1.0, 0.0);
 		glTranslatef(2.0, 0.0, 0.0);
-		glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
-
+		
 		glPushMatrix();
+			glRotatef((GLfloat)day, 0.0, 1.0, 0.0);
 			glColor3f(0.0, 0.0, 1.0); // blue
-			glutWireCube(0.4);
+			glutSolidCube(0.4);
 			
 			//Moon
 			glTranslatef(0.5, 0.0, 0.0);
@@ -61,18 +67,25 @@ void keyboard(unsigned char key, int x, int y) {
 		break;
 	case 'm': moonRotation = (moonRotation + 5) % 360;
 		break;
+	case 'S': sunRotation = (sunRotation + 10) % 360;
+		break;
+	case 's': sunRotation = (sunRotation - 10) % 360;
+		break;
 	default:;
 	}
 	//glutPostRedisplay();
 }
 
 void timer(int n) {
+	/*
+	sunRotation = (sunRotation - 15) % 360;
 	day = (day + 2) % 360;
-	year = (year + 1) % 360;
+	year = (year - 1) % 360;
 	moonRotation = (moonRotation + 1) % 360;
-
+	*/
+	cout << "I'm talking";
 	glutPostRedisplay();
-	glutTimerFunc(20, timer, 0);
+	glutTimerFunc(100, timer, 0);
 }
 
 int main(int argc, char **argv)
